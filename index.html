@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Torre de Hanoi</title>
     <style type="text/css">
         table {
@@ -101,6 +98,7 @@
         var pos = 0;
         var t = null;
         var stop = false;
+
 
         function init() {
             if (document.getElementById) {
@@ -232,20 +230,24 @@
             objDisk.style.left = posX + 'px';
             objDisk.style.top = posY + 'px';
 
-            if (e.clientX >= document.body.clientWidth - 10 || e.clientY >= document.body.clientHeight - 5 || e.clientX == 5 || e.clientY == 5) {
-                //outside available window
+            if (e.clientX >= document.body.clientWidth - 10 || e.clientY >= document.body.clientHeight - 5 || e.clientX == 5 || e.clientY == 5) { //outside available window
                 indexTo = indexFr;
                 dropDisk(objDisk);
-            } else if ( //in the vicinity of tower 3
+            }
+            else if ( //in the vicinity of tower 3
                 (tower3Left <= posX) &&
                 (tower3Left + tower3Width >= posX) &&
-                (parseInt(objTower3.style.top) + parseInt(objTower3.style.height) > posY)) {
+                (parseInt(objTower3.style.top) + parseInt(objTower3.style.height) > posY)
+            ) {
                 indexTo = 3;
-            } else if ((tower2Left <= posX) && (tower2Left + tower3Width >= posX)) { //in the vicinity of tower 2
+            }
+            else if ((tower2Left <= posX) && (tower2Left + tower3Width >= posX)) { //in the vicinity of tower 2
                 indexTo = 2;
-            } else if ((tower1Left <= posX) && (tower1Left + parseInt(objTower1.style.width) >= posX)) { //in the vicinity of tower 1
+            }
+            else if ((tower1Left <= posX) && (tower1Left + parseInt(objTower1.style.width) >= posX)) { //in the vicinity of tower 1
                 indexTo = 1;
-            } else indexTo = indexFr;
+            }
+            else indexTo = indexFr;
             return false;
         }
 
@@ -259,7 +261,8 @@
                 getNewTop(indexFr, null);
                 pushDisk(disk, indexFr);	//put disk back to original tower
                 getNewTop(indexFr, disk);
-            } else if (topDisk == null) {
+            }
+            else if (topDisk == null) {
                 pushDisk(disk, indexTo);
                 getNewTop(indexFr, null);
                 getNewTop(indexTo, disk);
@@ -267,7 +270,8 @@
                 currTower = indexTo;
                 prevTower = indexFr;
                 f.btnUndo.disabled = false;
-            } else if (parseInt(disk.style.width) < parseInt(topDisk.style.width)) {
+            }
+            else if (parseInt(disk.style.width) < parseInt(topDisk.style.width)) {
                 pushDisk(disk, indexTo);
                 getNewTop(indexFr, null);
                 getNewTop(indexTo, disk);
@@ -276,7 +280,8 @@
                 prevTower = indexFr;
                 if (indexTo == 3) gameStatus = checkStatus();
                 f.btnUndo.disabled = false;
-            } else {
+            }
+            else {
                 getNewTop(indexFr, null);
                 pushDisk(disk, indexFr);	//put disk back to original tower
                 getNewTop(indexFr, disk);
@@ -315,7 +320,8 @@
                 topDiskTop = parseInt(topDisk.style.top);
                 disk.style.left = towerLeft + midhoriztower - diskWidth / 2 + "px";
                 disk.style.top = topDiskTop - diskheight - 1 + "px";
-            } else {
+            }
+            else {
                 disk.style.left = towerLeft + midhoriztower - diskWidth / 2 + "px";
                 disk.style.top = basetop - diskheight - 1 + "px";
             }
@@ -327,7 +333,8 @@
                     disksOnTowers[index - 1][i] = disksOnTowers[index - 1][i + 1];
                 }
                 disksOnTowers[index - 1][disksOnTower1.length - 1] = null;
-            } else {		//push
+            }
+            else {		//push
                 for (var i = disksOnTower1.length - 1; i >= 1; i--) {
                     disksOnTowers[index - 1][i] = disksOnTowers[index - 1][i - 1];
                 }
@@ -351,7 +358,8 @@
                 drawDisks(disknum);
                 getMoves(0, 2, 1, disknum);
                 t = window.setTimeout("moveDisk()", delay);
-            } else {
+            }
+            else {
                 if (t) {
                     window.clearTimeout(t);
                     btn.value = "Resolver";
@@ -391,7 +399,8 @@
                 arrFr[idx] = from;
                 arrTo[idx++] = to;
                 getMoves(empty, to, from, numDisk - 1);
-            } else {
+            }
+            else {
                 arrFr[idx] = from;
                 arrTo[idx++] = to;
             }
@@ -417,7 +426,7 @@
     </script>
 </head>
 
-<body onLoad="init();">
+<body onLoad="init();" onselectstart="return false" oncontextmenu="return false">
     <form name="hanoi">
 
         <div id="title"
@@ -496,11 +505,11 @@
                         <td><input name="yourmove" style="border:none" size="3" value="0" readonly></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align: center"><input name="btnRes" value="Reiniciar"
+                        <td colspan="2" align="center"><input name="btnRes" value="Reiniciar"
                                 onClick="newGame(document.hanoi.diskno)" type="button">
                             <input name="btnUndo" value="Desfazer" onClick="unDo(this)" disabled="disabled"
                                 type="button">
-                            <input name="btnSolve" value="Resolver" onClick="solve(this)" type="button">
+                            <!--<input name="btnSolve" value="Resolver" onClick="solve(this)" type="button">-->
                         </td>
                     </tr>
                 </tbody>
@@ -509,11 +518,11 @@
         </div>
     </form>
 
-</body>
 
-<object style="position: absolute; left: 0px; top: 0px;" type="application/gas-events-abn"
-    id="8b394a79-faea-9f80-ba18-ea98a8ac84ac" height="0" width="0"></object>
-<object style="position: absolute; left: 0px; top: 0px;" type="application/gas-events-bb"
+
+</body><object style="position: absolute; left: 0px; top: 0px;" type="application/gas-events-abn"
+    id="8b394a79-faea-9f80-ba18-ea98a8ac84ac" height="0" width="0"></object><object
+    style="position: absolute; left: 0px; top: 0px;" type="application/gas-events-bb"
     id="683b88cb-2b99-b8a7-7b1a-598fb99eaca8" height="0" width="0"></object>
 
 </html>
